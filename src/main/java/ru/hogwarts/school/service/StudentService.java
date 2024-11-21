@@ -16,6 +16,7 @@ public class StudentService {
     private Long counter = 1L;
 
     public Student addStudent(Student student) {
+        student.setId(counter);
         students.put(counter, student);
         counter++;
         return student;
@@ -33,12 +34,12 @@ public class StudentService {
         return students.remove(id);
     }
 
-    public ArrayList<Student> filterStudentsByAge(Long age) {
+    public List<Student> filterStudentsByAge(Long age) {
         // Применяем фильтр по возрасту и собираем результат в ArrayList
         List<Student> listStudents = students.values()
                 .stream().filter(s -> s.getAge().equals(age))
                 .toList();
 
-        return new ArrayList<>(listStudents);
+        return listStudents;
     }
 }

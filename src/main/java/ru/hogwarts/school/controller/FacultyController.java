@@ -5,6 +5,8 @@ import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.ArrayList;
+import java.util.List;
+import java.util.Map;
 
 @RestController
 @RequestMapping(path = "faculty")
@@ -22,12 +24,12 @@ public class FacultyController {
     }
 
 
-    @GetMapping(path = "{color}")
-    public ArrayList<Faculty> getFacultryByColor(String color) {
+    @GetMapping(path = "color/{color}")
+    public List<Faculty> getFacultryByColor(@PathVariable String color) {
         return facultyService.filterFacultyByColor(color);
     }
 
-    @GetMapping(path = "{id}")
+    @GetMapping(path = "/{id}")
     public Faculty getFacultyInfo(@PathVariable Long id) {
         return facultyService.getFacultyById(id);
     }

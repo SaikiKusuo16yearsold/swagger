@@ -12,10 +12,11 @@ import java.util.Map;
 
 @Service
 public class FacultyService {
-    private Map<Long, Faculty> faculties = new HashMap<>();
+    private final Map<Long, Faculty> faculties = new HashMap<>();
     private Long counter = 1L;
 
     public Faculty addFaculty(Faculty faculty) {
+        faculty.setId(counter);
         faculties.put(counter, faculty);
         counter++;
         return faculty;
@@ -33,11 +34,11 @@ public class FacultyService {
         return faculties.remove(id);
     }
 
-    public ArrayList<Faculty> filterFacultyByColor(String color) {
+    public List<Faculty> filterFacultyByColor(String color) {
         List<Faculty> listFaculty = faculties.values()
                 .stream().filter(s -> s.getColor().equals(color))
                 .toList();
 
-        return new ArrayList<>(listFaculty);
+        return listFaculty;
     }
 }
