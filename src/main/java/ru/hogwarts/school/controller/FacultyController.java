@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.service.FacultyService;
@@ -11,12 +12,9 @@ import java.util.Map;
 @RestController
 @RequestMapping(path = "faculty")
 public class FacultyController {
-
+    @Autowired
     private FacultyService facultyService;
 
-    public FacultyController(FacultyService facultyService) {
-        this.facultyService = facultyService;
-    }
 
     @PostMapping
     public Faculty createFaculty(@RequestBody Faculty faculty) {
@@ -25,7 +23,7 @@ public class FacultyController {
 
 
     @GetMapping(path = "color/{color}")
-    public List<Faculty> getFacultryByColor(@PathVariable String color) {
+    public List<Faculty> getFacultyByColor(@PathVariable String color) {
         return facultyService.filterFacultyByColor(color);
     }
 
@@ -36,12 +34,12 @@ public class FacultyController {
 
     @PutMapping
     public Faculty editFaculty(@RequestBody Faculty faculty) {
-        return facultyService.updateInformationAboutFaculty(faculty);
+        return facultyService.addFaculty(faculty);
     }
 
     @DeleteMapping("{id}")
-    public Faculty deleteBook(@PathVariable Long id) {
-        return facultyService.deleteFaculty(id);
+    public void deleteBook(@PathVariable Long id) {
+        facultyService.deleteFaculty(id);
     }
 
 

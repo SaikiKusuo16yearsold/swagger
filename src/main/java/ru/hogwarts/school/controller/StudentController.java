@@ -1,5 +1,6 @@
 package ru.hogwarts.school.controller;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpStatus;
 import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
@@ -14,12 +15,8 @@ import java.util.List;
 @RestController
 @RequestMapping(path = "student")
 public class StudentController {
-
+    @Autowired
     private StudentService studentService;
-
-    public StudentController(StudentService studentService) {
-        this.studentService = studentService;
-    }
 
     @PostMapping
     public Student createFaculty(@RequestBody Student student) {
@@ -28,7 +25,7 @@ public class StudentController {
 
     @GetMapping(path = "age/{age}")
     public ResponseEntity<List<Student>> studentsByAge(@PathVariable Long age) {
-        List<Student> students = studentService.filterStudentsByAge(age);
+        List<Student> students = studentService.filterStudentByAge(age);
         if (students.isEmpty()) {
             return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
         }
@@ -47,7 +44,7 @@ public class StudentController {
 
     @PutMapping
     public ResponseEntity<Student> editFaculty(@RequestBody Student student) {
-        Student students = studentService.updateInformationAboutStudent(student);
+        Student students = studentService.addStudent(student);
         if (students == null) {
             return ResponseEntity.notFound().build();
         }
@@ -55,11 +52,8 @@ public class StudentController {
     }
 
     @DeleteMapping("{id}")
-    public ResponseEntity<Student> deleteBook(@PathVariable Long id) {
-        Student student = studentService.deleteStudent(id);
-        if (student == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+    public ResponseEntity deleteBook(@PathVariable Long id) {
+        studentService.deleteStudent(id);
+        return ResponseEntity.ok(200);
     }
 }

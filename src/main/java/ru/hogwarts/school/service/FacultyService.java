@@ -1,7 +1,9 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.repository.FacultyRepository;
 
 
 import java.util.ArrayList;
@@ -12,33 +14,23 @@ import java.util.Map;
 
 @Service
 public class FacultyService {
-    private final Map<Long, Faculty> faculties = new HashMap<>();
-    private Long counter = 1L;
+    @Autowired
+    private FacultyRepository facultyRepository;
+
 
     public Faculty addFaculty(Faculty faculty) {
-        faculty.setId(counter);
-        faculties.put(counter, faculty);
-        counter++;
-        return faculty;
+        return facultyRepository.save(faculty);
     }
 
     public Faculty getFacultyById(Long id) {
-        return faculties.get(id);
+        return facultyRepository.findById(id).get();
     }
 
-    public Faculty updateInformationAboutFaculty(Faculty faculty) {
-        return faculties.put(faculty.getId(), faculty);
-    }
-
-    public Faculty deleteFaculty(Long id) {
-        return faculties.remove(id);
+    public void deleteFaculty(Long id) {
+        facultyRepository.deleteById(id);
     }
 
     public List<Faculty> filterFacultyByColor(String color) {
-        List<Faculty> listFaculty = faculties.values()
-                .stream().filter(s -> s.getColor().equals(color))
-                .toList();
-
-        return listFaculty;
+        return facultyRepository.findByColorLike(color);
     }
 }

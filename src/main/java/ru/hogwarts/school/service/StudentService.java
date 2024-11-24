@@ -1,45 +1,32 @@
 package ru.hogwarts.school.service;
 
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.StudentRepository;
 
-import java.util.ArrayList;
-import java.util.HashMap;
 import java.util.List;
-import java.util.Map;
 
 
 @Service
 public class StudentService {
-    private Map<Long, Student> students = new HashMap<>();
-    private Long counter = 1L;
+    @Autowired
+    private StudentRepository studentRepository;
 
     public Student addStudent(Student student) {
-        student.setId(counter);
-        students.put(counter, student);
-        counter++;
-        return student;
+        return studentRepository.save(student);
     }
 
     public Student getStudentById(Long id) {
-        return students.get(id);
+        return studentRepository.findById(id).get();
     }
 
-    public Student updateInformationAboutStudent(Student student) {
-        return students.put(student.getId(), student);
+    public void deleteStudent(Long id) {
+        studentRepository.deleteById(id);
     }
 
-    public Student deleteStudent(Long id) {
-        return students.remove(id);
-    }
-
-    public List<Student> filterStudentsByAge(Long age) {
-        // Применяем фильтр по возрасту и собираем результат в ArrayList
-        List<Student> listStudents = students.values()
-                .stream().filter(s -> s.getAge().equals(age))
-                .toList();
-
-        return listStudents;
+    public List<Student> filterStudentByAge(Long age) {
+        return studentRepository.findByAgeLike(age);
     }
 }
