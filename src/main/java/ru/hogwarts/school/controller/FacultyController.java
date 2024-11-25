@@ -1,8 +1,11 @@
 package ru.hogwarts.school.controller;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.http.HttpStatus;
+import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
 
 import java.util.ArrayList;
@@ -17,29 +20,36 @@ public class FacultyController {
 
 
     @PostMapping
-    public Faculty createFaculty(@RequestBody Faculty faculty) {
-        return facultyService.addFaculty(faculty);
+    public ResponseEntity<Faculty> createFaculty(@RequestBody Faculty faculty) {
+        return ResponseEntity.ok(facultyService.addFaculty(faculty));
     }
 
 
     @GetMapping(path = "color/{color}")
-    public List<Faculty> getFacultyByColor(@PathVariable String color) {
-        return facultyService.filterFacultyByColor(color);
+    public ResponseEntity<List<Faculty>> getFacultyByColor(@PathVariable String color) {
+        List<Faculty> faculties = facultyService.filterFacultyByColor(color);
+        if (faculties.isEmpty()) {
+            return ResponseEntity.status(HttpStatus.NOT_FOUND).build();
+        }
+        return ResponseEntity.ok(faculties);
     }
 
     @GetMapping(path = "/{id}")
-    public Faculty getFacultyInfo(@PathVariable Long id) {
-        return facultyService.getFacultyById(id);
+    public ResponseEntity<Faculty> getFacultyInfo(@PathVariable Long id) {
+        Faculty faculty = facultyService.getFacultyById(id);
+        return ResponseEntity.ok(faculty);
     }
 
     @PutMapping
-    public Faculty editFaculty(@RequestBody Faculty faculty) {
-        return facultyService.addFaculty(faculty);
+    public ResponseEntity<Faculty> editFaculty(@RequestBody Faculty faculty) {
+        Faculty department = facultyService.addFaculty(faculty);
+        return ResponseEntity.ok(department);
     }
 
     @DeleteMapping("{id}")
-    public void deleteBook(@PathVariable Long id) {
+    public ResponseEntity deleteBook(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
+        return ResponseEntity.ok(200);
     }
 
 

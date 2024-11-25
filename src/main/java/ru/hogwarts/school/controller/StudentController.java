@@ -19,8 +19,8 @@ public class StudentController {
     private StudentService studentService;
 
     @PostMapping
-    public Student createFaculty(@RequestBody Student student) {
-        return studentService.addStudent(student);
+    public ResponseEntity<Student> createFaculty(@RequestBody Student student) {
+        return ResponseEntity.ok(studentService.addStudent(student));
     }
 
     @GetMapping(path = "age/{age}")
@@ -36,19 +36,13 @@ public class StudentController {
     @GetMapping(path = "{id}")
     public ResponseEntity<Student> getFacultyInfo(@PathVariable Long id) {
         Student student = studentService.getStudentById(id);
-        if (student == null) {
-            return ResponseEntity.status(HttpStatus.BAD_REQUEST).build();
-        }
         return ResponseEntity.ok(student);
     }
 
     @PutMapping
     public ResponseEntity<Student> editFaculty(@RequestBody Student student) {
-        Student students = studentService.addStudent(student);
-        if (students == null) {
-            return ResponseEntity.notFound().build();
-        }
-        return ResponseEntity.ok(student);
+        Student learner = studentService.addStudent(student);
+        return ResponseEntity.ok(learner);
     }
 
     @DeleteMapping("{id}")

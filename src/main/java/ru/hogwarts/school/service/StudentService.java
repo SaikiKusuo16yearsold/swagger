@@ -27,6 +27,6 @@ public class StudentService {
     }
 
     public List<Student> filterStudentByAge(Long age) {
-        return studentRepository.findByAgeLike(age);
+        return studentRepository.findByAge(age);
     }
 }
