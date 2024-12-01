@@ -37,6 +37,11 @@ public class FacultyController {
         return facultyService.addFaculty(faculty);
     }
 
+    @GetMapping(path = "find-faculties/{nameOrColor}")
+    public List<Faculty> findByColorOrName(@PathVariable String nameOrColor){
+        return facultyService.findByColorOrName(nameOrColor, nameOrColor);
+    }
+
     @DeleteMapping("{id}")
     public void deleteBook(@PathVariable Long id) {
         facultyService.deleteFaculty(id);
