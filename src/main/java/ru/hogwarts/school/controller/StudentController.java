@@ -23,14 +23,7 @@ public class StudentController {
     private FacultyRepository facultyRepository;
 
     @PostMapping
-    public Student createFaculty(@RequestBody StudentDTO studentDTO) {
-        Faculty faculty = facultyRepository.findById(studentDTO.getFacultyId())
-                .orElseThrow(() -> new RuntimeException("Faculty not found")); // Обработка, если факультет не найден
-
-        Student student = new Student();
-        student.setName(studentDTO.getName());
-        student.setAge(studentDTO.getAge());
-        student.setFaculty(faculty);
+    public Student createFaculty(@RequestBody Student student) {
         return studentService.addStudent(student);
     }
 
@@ -71,9 +64,9 @@ public class StudentController {
         studentService.deleteStudent(id);
         return ResponseEntity.ok(200);
     }
-
-    @GetMapping(path = "faculty/{id}")
-    public Faculty getFaculty(@PathVariable Long id) {
-        return studentService.getFaculty(id);
-    }
+//
+//    @GetMapping(path = "faculty/{id}")
+//    public Faculty getFaculty(@PathVariable Long id) {
+//        return studentService.getFaculty(id);
+//    }
 }

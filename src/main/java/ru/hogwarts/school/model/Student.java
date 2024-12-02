@@ -13,9 +13,9 @@ public class Student {
     @ManyToOne
     @JoinColumn(name = "faculty_id", nullable = false)
     private Faculty faculty; // Это поле сохраняет связь с объектом Faculty
-
-    public Student() {
-    }
+//
+//    public Student() {
+//    }
 
     public Long getId() {
         return id;

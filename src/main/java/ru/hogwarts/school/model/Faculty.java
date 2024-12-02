@@ -17,6 +17,9 @@ public class Faculty {
     @OneToMany(mappedBy = "faculty")
     private Set<Student> students;
 
+    @OneToOne(mappedBy = "faculty")
+    private FacultyCover facultyCover;
+
 
     public Long getId() {
         return id;
