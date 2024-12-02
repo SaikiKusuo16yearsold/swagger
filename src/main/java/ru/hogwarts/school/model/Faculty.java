@@ -14,9 +14,9 @@ public class Faculty {
     private String name;
     private String color;
 
-    @OneToMany(mappedBy = "faculty")
-    private Set<Student> students;
 
+    @OneToMany(mappedBy = "faculty", cascade = CascadeType.ALL, orphanRemoval = true)
+    private Set<Student> students;
 
     public Long getId() {
         return id;

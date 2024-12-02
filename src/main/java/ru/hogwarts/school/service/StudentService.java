@@ -5,6 +5,8 @@ import org.springframework.stereotype.Service;
 
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.model.StudentDTO;
+import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 import java.util.List;
@@ -14,8 +16,16 @@ import java.util.List;
 public class StudentService {
     @Autowired
     private StudentRepository studentRepository;
+    @Autowired
+    private FacultyRepository facultyRepository;
 
-    public Student addStudent(Student student) {
+    public Student addStudent(StudentDTO studentDTO) {
+        Faculty faculty = facultyRepository.findById(studentDTO.getFacultyId())
+                .orElseThrow(() -> new RuntimeException("Faculty not found"));
+        Student student = new Student();
+        student.setName(studentDTO.getName());
+        student.setAge(studentDTO.getAge());
+        student.setFaculty(faculty);
         return studentRepository.save(student);
     }
 
@@ -31,7 +41,7 @@ public class StudentService {
         return studentRepository.findByAge(age);
     }
 
-    public List<Student> findByAgeBetween(Long minAge, Long maxAge){
+    public List<Student> findByAgeBetween(Long minAge, Long maxAge) {
         return studentRepository.findByAgeBetween(minAge, maxAge);
     }
 

@@ -27,11 +27,11 @@ public class StudentController {
         Faculty faculty = facultyRepository.findById(studentDTO.getFacultyId())
                 .orElseThrow(() -> new RuntimeException("Faculty not found")); // Обработка, если факультет не найден
 
-        Student student = new Student();
-        student.setName(studentDTO.getName());
-        student.setAge(studentDTO.getAge());
-        student.setFaculty(faculty);
-        return studentService.addStudent(student);
+//        Student student = new Student();
+//        student.setName(studentDTO.getName());
+//        student.setAge(studentDTO.getAge());
+//        student.setFaculty(faculty);
+        return studentService.addStudent(studentDTO);
     }
 
     @GetMapping(path = "age/{age}")
@@ -58,12 +58,12 @@ public class StudentController {
     }
 
     @PutMapping
-    public ResponseEntity<Student> editFaculty(@RequestBody Student student) {
-        Student students = studentService.addStudent(student);
+    public ResponseEntity<Student> editFaculty(@RequestBody StudentDTO studentDTO) {
+        Student students = studentService.addStudent(studentDTO);
         if (students == null) {
             return ResponseEntity.notFound().build();
         }
-        return ResponseEntity.ok(student);
+        return ResponseEntity.ok(students);
     }
 
     @DeleteMapping("{idi}")
