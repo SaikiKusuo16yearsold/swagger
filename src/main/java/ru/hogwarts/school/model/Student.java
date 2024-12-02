@@ -1,9 +1,6 @@
 package ru.hogwarts.school.model;
 
-import jakarta.persistence.Entity;
-import jakarta.persistence.GeneratedValue;
-import jakarta.persistence.GenerationType;
-import jakarta.persistence.Id;
+import jakarta.persistence.*;
 
 @Entity
 public class Student {
@@ -12,6 +9,10 @@ public class Student {
     private Long id;
     private String name;
     private Long age;
+
+    @ManyToOne
+    @JoinColumn(name = "faculty_id")
+    private Faculty faculty;
 
     public String getName() {
         return name;
