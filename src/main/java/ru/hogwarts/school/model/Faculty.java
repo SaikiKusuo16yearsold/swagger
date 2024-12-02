@@ -4,6 +4,8 @@ import jakarta.persistence.*;
 
 import java.util.Set;
 
+
+
 @Entity
 public class Faculty {
     @Id
@@ -14,6 +16,7 @@ public class Faculty {
 
     @OneToMany(mappedBy = "faculty")
     private Set<Student> students;
+
 
     public Long getId() {
         return id;
@@ -39,4 +42,14 @@ public class Faculty {
         this.color = color;
     }
 
+    public Set<Student> getStudents() {
+        return students;
+    }
+
+    public void setStudents(Set<Student> students) {
+        this.students = students;
+    }
 }
+
+
+

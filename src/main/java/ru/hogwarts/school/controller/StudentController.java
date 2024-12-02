@@ -6,6 +6,8 @@ import org.springframework.http.ResponseEntity;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.model.StudentDTO;
+import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.FacultyService;
 import ru.hogwarts.school.service.StudentService;
 
@@ -17,9 +19,18 @@ import java.util.List;
 public class StudentController {
     @Autowired
     private StudentService studentService;
+    @Autowired
+    private FacultyRepository facultyRepository;
 
     @PostMapping
-    public Student createFaculty(@RequestBody Student student) {
+    public Student createFaculty(@RequestBody StudentDTO studentDTO) {
+        Faculty faculty = facultyRepository.findById(studentDTO.getFacultyId())
+                .orElseThrow(() -> new RuntimeException("Faculty not found")); // Обработка, если факультет не найден
+
+        Student student = new Student();
+        student.setName(studentDTO.getName());
+        student.setAge(studentDTO.getAge());
+        student.setFaculty(faculty);
         return studentService.addStudent(student);
     }
 
@@ -59,5 +70,10 @@ public class StudentController {
     public ResponseEntity deleteBook(@PathVariable Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok(200);
+    }
+
+    @GetMapping(path = "faculty/{id}")
+    public Faculty getFaculty(@PathVariable Long id) {
+        return studentService.getFaculty(id);
     }
 }
