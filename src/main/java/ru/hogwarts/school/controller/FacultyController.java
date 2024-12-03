@@ -3,22 +3,26 @@ package ru.hogwarts.school.controller;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
+import ru.hogwarts.school.model.FacultyDTO;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.service.FacultyService;
+import ru.hogwarts.school.service.StudentService;
 
-import java.util.ArrayList;
 import java.util.List;
-import java.util.Map;
+import java.util.Set;
 
 @RestController
 @RequestMapping(path = "faculty")
 public class FacultyController {
     @Autowired
     private FacultyService facultyService;
+    @Autowired
+    private StudentService studentService;
 
 
     @PostMapping
-    public Faculty createFaculty(@RequestBody Faculty faculty) {
-        return facultyService.addFaculty(faculty);
+    public Faculty createFaculty(@RequestBody FacultyDTO facultyDTO) {
+        return facultyService.addFaculty(facultyDTO);
     }
 
 
@@ -33,12 +37,12 @@ public class FacultyController {
     }
 
     @PutMapping
-    public Faculty editFaculty(@RequestBody Faculty faculty) {
+    public Faculty editFaculty(@RequestBody FacultyDTO faculty) {
         return facultyService.addFaculty(faculty);
     }
 
     @GetMapping(path = "find-faculties/{nameOrColor}")
-    public List<Faculty> findByColorOrName(@PathVariable String nameOrColor){
+    public List<Faculty> findByColorOrName(@PathVariable String nameOrColor) {
         return facultyService.findByColorOrName(nameOrColor, nameOrColor);
     }
 
@@ -47,7 +51,11 @@ public class FacultyController {
         facultyService.deleteFaculty(id);
     }
 
+    @GetMapping("/faculty-id")
+    public List<Student> getStudent(@RequestParam Long facultyId) {
+        return facultyService.findByName(facultyId);
 
+    }
 
 
 }
