@@ -16,7 +16,7 @@ public class Faculty {
     private String color;
 
 
-    @OneToMany(mappedBy = "faculty", fetch = FetchType.EAGER, orphanRemoval = true)
+    @OneToMany(mappedBy = "faculty", fetch = FetchType.LAZY, orphanRemoval = true)
     @JsonIgnoreProperties("faculty")
     private List<Student> students;
 
