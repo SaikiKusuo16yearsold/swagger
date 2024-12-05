@@ -5,11 +5,11 @@ import org.springframework.web.bind.annotation.*;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.FacultyDTO;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.service.FacultyService;
 import ru.hogwarts.school.service.StudentService;
 
 import java.util.List;
-import java.util.Set;
 
 @RestController
 @RequestMapping(path = "faculty")
@@ -18,7 +18,8 @@ public class FacultyController {
     private FacultyService facultyService;
     @Autowired
     private StudentService studentService;
-
+    @Autowired
+    private FacultyRepository facultyRepository;
 
     @PostMapping
     public Faculty createFaculty(@RequestBody FacultyDTO facultyDTO) {
@@ -55,6 +56,16 @@ public class FacultyController {
     public List<Student> getStudent(@RequestParam Long facultyId) {
         return facultyService.findByName(facultyId);
 
+    }
+
+    @GetMapping("/faculties")
+    public List<Faculty> getFaculties() {
+        return facultyRepository.findAll();
+    }
+
+    @GetMapping
+    public String getFaculty() {
+        return "web app is work ";
     }
 
 
