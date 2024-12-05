@@ -1,6 +1,5 @@
 package ru.hogwarts.school;
 
-//import org.junit.jupiter.api.Assertions;
 
 import org.json.JSONObject;
 import org.junit.jupiter.api.Test;
@@ -13,7 +12,9 @@ import org.springframework.http.MediaType;
 import org.springframework.test.web.servlet.MockMvc;
 import org.springframework.test.web.servlet.request.MockMvcRequestBuilders;
 import ru.hogwarts.school.controller.FacultyController;
+
 import ru.hogwarts.school.model.Faculty;
+
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.FacultyService;
@@ -28,7 +29,7 @@ import static org.mockito.Mockito.when;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.jsonPath;
 import static org.springframework.test.web.servlet.result.MockMvcResultMatchers.status;
 
-@WebMvcTest
+@WebMvcTest(FacultyController.class)
 class SchoolApplicationTests {
 
     @Autowired
@@ -68,8 +69,8 @@ class SchoolApplicationTests {
         when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(faculty));
 
         mockMvc.perform(MockMvcRequestBuilders.post("/faculty").content(facultyObject.toString())
-                .contentType(MediaType.APPLICATION_JSON)
-                .accept(MediaType.APPLICATION_JSON))
+                        .contentType(MediaType.APPLICATION_JSON)
+                        .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))
                 .andExpect(jsonPath("$.name").value("pufendui"))
@@ -77,7 +78,6 @@ class SchoolApplicationTests {
                 .andExpect(jsonPath("$.students").value(facultyList));
 
         mockMvc.perform(MockMvcRequestBuilders.get("/faculty/1").content(facultyObject.toString())
-//                        .contentType(MediaType.APPLICATION_JSON)
                         .accept(MediaType.APPLICATION_JSON))
                 .andExpect(status().isOk())
                 .andExpect(jsonPath("$.id").value("1"))

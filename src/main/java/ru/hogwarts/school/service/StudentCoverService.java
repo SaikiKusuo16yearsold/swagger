@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import jakarta.transaction.Transactional;
+import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
@@ -24,7 +25,7 @@ import static java.nio.file.StandardOpenOption.CREATE_NEW;
 public class StudentCoverService {
     @Value("${books.cover.dir.path}")
     private String coversDir;
-
+    @Autowired
     private final FacultyService facultyService;
     private final AvatarRepository avatarRepository;
 

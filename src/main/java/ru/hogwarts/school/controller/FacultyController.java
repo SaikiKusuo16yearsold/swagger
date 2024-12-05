@@ -63,10 +63,5 @@ public class FacultyController {
         return facultyRepository.findAll();
     }
 
-    @GetMapping
-    public String getFaculty() {
-        return "web app is work ";
-    }
-
 
 }
