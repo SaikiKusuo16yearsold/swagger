@@ -15,6 +15,7 @@ import ru.hogwarts.school.controller.FacultyController;
 
 import ru.hogwarts.school.model.Faculty;
 
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 import ru.hogwarts.school.service.FacultyService;
@@ -52,7 +53,7 @@ class SchoolApplicationTests {
 
     @Test
     public void saveFacultyTest() throws Exception {
-        List<Faculty> facultyList = new ArrayList<>();
+        List<Student> facultyList = new ArrayList<>();
 
 
         JSONObject facultyObject = new JSONObject();
@@ -63,10 +64,12 @@ class SchoolApplicationTests {
         faculty.setId(1L);
         faculty.setName("pufendui");
         faculty.setColor("pink");
-        faculty.setStudents(new ArrayList<>());
+        faculty.setStudents(facultyList);
 
         when(facultyRepository.save(any(Faculty.class))).thenReturn(faculty);
         when(facultyRepository.findById(any(Long.class))).thenReturn(Optional.of(faculty));
+        when(facultyRepository.findByColorIgnoreCaseOrNameIgnoreCase("pink", "pink")).thenReturn(List.of(faculty));
+//        when(facultyRepository.)
 
         mockMvc.perform(MockMvcRequestBuilders.post("/faculty").content(facultyObject.toString())
                         .contentType(MediaType.APPLICATION_JSON)
@@ -84,5 +87,19 @@ class SchoolApplicationTests {
                 .andExpect(jsonPath("$.name").value("pufendui"))
                 .andExpect(jsonPath("$.color").value("pink"))
                 .andExpect(jsonPath("$.students").value(facultyList));
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/faculty/find-faculties/pink")
+                        .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$.[0].id").value("1")) // Ожидаем первый элемент в массиве
+                .andExpect(jsonPath("$.[0].name").value("pufendui"))
+                .andExpect(jsonPath("$.[0].color").value("pink"))
+                .andExpect(jsonPath("$.[0].students").isArray());
+
+        mockMvc.perform(MockMvcRequestBuilders.get("/faculty/faculty-id").param("facultyId", "1")
+                .accept(MediaType.APPLICATION_JSON))
+                .andExpect(status().isOk())
+                .andExpect(jsonPath("$").value(facultyList));
+
     }
 }

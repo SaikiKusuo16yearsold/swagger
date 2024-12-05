@@ -39,7 +39,7 @@ public class FacultyController {
 
     @PutMapping
     public Faculty editFaculty(@RequestBody FacultyDTO faculty) {
-        return facultyService.addFaculty(faculty);
+        return facultyService.addFacu lty(faculty);
     }
 
     @GetMapping(path = "find-faculties/{nameOrColor}")
@@ -58,10 +58,10 @@ public class FacultyController {
 
     }
 
-    @GetMapping("/faculties")
-    public List<Faculty> getFaculties() {
-        return facultyRepository.findAll();
-    }
+//    @GetMapping("/faculties")
+//    public List<Faculty> getFaculties() {
+//        return facultyRepository.findAll();
+//    }
 
 
 }
