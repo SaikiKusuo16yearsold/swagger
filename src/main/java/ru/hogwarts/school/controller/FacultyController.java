@@ -39,7 +39,7 @@ public class FacultyController {
 
     @PutMapping
     public Faculty editFaculty(@RequestBody FacultyDTO faculty) {
-        return facultyService.addFacu lty(faculty);
+        return facultyService.addFaculty(faculty);
     }
 
     @GetMapping(path = "find-faculties/{nameOrColor}")

@@ -1,5 +1,4 @@
 package ru.hogwarts.school.controller;
-
 import jakarta.servlet.http.HttpServletResponse;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.http.HttpHeaders;
@@ -56,7 +55,7 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
-    @GetMapping(path = {"filter-by-age/{minAge}/{maxAge}"})
+    @GetMapping(path = {"filter-by-agu/{minAge}/{maxAge}"})
     public ResponseEntity<List<Student>> findByAgeBetween(@PathVariable Long minAge, @PathVariable Long maxAge) {
         return ResponseEntity.ok(studentService.findByAgeBetween(minAge, maxAge));
     }

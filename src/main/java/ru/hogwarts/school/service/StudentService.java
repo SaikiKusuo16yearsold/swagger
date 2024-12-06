@@ -46,6 +46,7 @@ public class StudentService {
     }
 
     public Faculty getFaculty(Long id) {
-        return studentRepository.findById(id).get().getFaculty();
+        Faculty faculty = studentRepository.findById(id).orElse(new Student()).getFaculty();
+        return faculty;
     }
 }
