@@ -1,6 +1,7 @@
 package ru.hogwarts.school.service;
 
 import org.springframework.beans.factory.annotation.Autowired;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 
 import ru.hogwarts.school.model.Faculty;
@@ -47,5 +48,18 @@ public class StudentService {
 
     public Faculty getFaculty(Long id) {
         return studentRepository.findById(id).get().getFaculty();
+    }
+
+
+    public int counterAllStudents() {
+        return studentRepository.counterAllStudents();
+    }
+
+    public int getAverageAge() {
+        return studentRepository.getAverageAge();
+    }
+
+    public List<Student> getLastFiveStudents() {
+        return studentRepository.getLastFiveStudents();
     }
 }

@@ -1,8 +1,10 @@
 package ru.hogwarts.school.service;
 
+import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
+import org.springframework.data.domain.PageRequest;
 import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Faculty;
@@ -88,4 +90,9 @@ public class StudentCoverService {
         }
         return new Avatar();
     }
+
+//    public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize){
+//        PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize);
+//        return avatarRepository.findAll(pageRequest);
+//    }
 }
