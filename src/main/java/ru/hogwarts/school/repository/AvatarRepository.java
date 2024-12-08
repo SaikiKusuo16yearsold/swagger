@@ -7,7 +7,7 @@ import ru.hogwarts.school.model.Avatar;
 import java.util.List;
 
 public interface AvatarRepository extends JpaRepository<Avatar, Long> {
-    Avatar findByFacultyId(Long id);
+    Avatar findByStudentId(Long id);
 
-//    List<Avatar> findAll(PageRequest page);
+    void deleteByStudentId(Long id);
 }

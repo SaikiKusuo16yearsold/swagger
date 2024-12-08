@@ -35,6 +35,7 @@ public class StudentController {
     private FacultyRepository facultyRepository;
 
 
+
     @PostMapping
     public Student createFaculty(@RequestBody StudentDTO studentDTO) {
         Faculty faculty = facultyRepository.findById(studentDTO.getFacultyId())
@@ -79,7 +80,7 @@ public class StudentController {
         return ResponseEntity.ok(students);
     }
 
-    @DeleteMapping("{idi}")
+    @DeleteMapping("{id}")
     public ResponseEntity deleteBook(@PathVariable Long id) {
         studentService.deleteStudent(id);
         return ResponseEntity.ok(200);
@@ -105,7 +106,7 @@ public class StudentController {
 
     @GetMapping(value = "/{id}/cover/preview")
     public ResponseEntity<byte[]> downoloadCover(@PathVariable Long id) {
-        Avatar studentCover = studentCoverService.findFacultyCover(id);
+        Avatar studentCover = studentCoverService.findStudentCover(id);
 
 
         HttpHeaders headers = new HttpHeaders();
@@ -117,7 +118,7 @@ public class StudentController {
 
     @GetMapping(value = "/{id}/cover")
     public void downoloadCover(@PathVariable Long id, HttpServletResponse response) throws IOException {
-        Avatar studentCover = studentCoverService.findFacultyCover(id);
+        Avatar studentCover = studentCoverService.findStudentCover(id);
 
         Path path = Path.of(studentCover.getFilePath());
 
@@ -146,6 +147,11 @@ public class StudentController {
         return studentService.getLastFiveStudents();
     }
 
-
+    @GetMapping("/id")
+    public ResponseEntity<List<Avatar>> getAllAvatars(@RequestParam("page") Integer pageNumber,
+                                                      @RequestParam("size") Integer pageSize){
+        List<Avatar> avatars = studentCoverService.getAllAvatars(pageNumber, pageSize);
+        return ResponseEntity.ok(avatars);
+    }
 
 }

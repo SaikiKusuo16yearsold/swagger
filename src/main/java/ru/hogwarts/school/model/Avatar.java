@@ -15,13 +15,6 @@ public class Avatar {
     @Lob
     private byte[] preview;
 
-    public Faculty getFaculty() {
-        return faculty;
-    }
-
-    public void setFaculty(Faculty faculty) {
-        this.faculty = faculty;
-    }
 
     public byte[] getPreview() {
         return preview;
@@ -63,6 +56,14 @@ public class Avatar {
         this.id = id;
     }
 
+    public Student getStudent() {
+        return student;
+    }
+
+    public void setStudent(Student student) {
+        this.student = student;
+    }
+
     @OneToOne
-    private Faculty faculty;
+    private Student student;
 }

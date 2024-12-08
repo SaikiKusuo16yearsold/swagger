@@ -1,10 +1,12 @@
 package ru.hogwarts.school.service;
 
+import jakarta.transaction.Transactional;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.FacultyDTO;
 import ru.hogwarts.school.model.Student;
+import ru.hogwarts.school.repository.AvatarRepository;
 import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
@@ -22,9 +24,13 @@ public class FacultyService {
     private StudentRepository studentRepository;
 
 
+    @Autowired
+    private AvatarRepository avatarRepository;
+
     public Faculty addFaculty(FacultyDTO facultyDTO) {
         Faculty faculty = new Faculty();
         List<Student> students = studentRepository.findByFacultyId(faculty.getId());
+        faculty.setId(facultyDTO.getId());
         faculty.setName(facultyDTO.getName());
         faculty.setColor(facultyDTO.getColor());
         faculty.setStudents(students);
@@ -35,7 +41,10 @@ public class FacultyService {
         return facultyRepository.findById(id).get();
     }
 
+
+//    @Transactional
     public void deleteFaculty(Long id) {
+//        avatarRepository.deleteByFacultyId(id);
         facultyRepository.deleteById(id);
     }
 

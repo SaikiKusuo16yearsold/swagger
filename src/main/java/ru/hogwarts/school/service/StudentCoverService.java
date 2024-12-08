@@ -9,6 +9,7 @@ import org.springframework.stereotype.Service;
 import org.springframework.web.multipart.MultipartFile;
 import ru.hogwarts.school.model.Faculty;
 import ru.hogwarts.school.model.Avatar;
+import ru.hogwarts.school.model.Student;
 import ru.hogwarts.school.repository.AvatarRepository;
 
 import javax.imageio.ImageIO;
@@ -17,6 +18,7 @@ import java.awt.image.BufferedImage;
 import java.io.*;
 import java.nio.file.Files;
 import java.nio.file.Path;
+import java.util.List;
 
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
@@ -28,19 +30,19 @@ public class StudentCoverService {
     @Value("${books.cover.dir.path}")
     private String coversDir;
     @Autowired
-    private final FacultyService facultyService;
+    private final StudentService studentService;
     private final AvatarRepository avatarRepository;
 
 
-    public StudentCoverService(FacultyService facultyService, AvatarRepository avatarRepository) {
-        this.facultyService = facultyService;
+    public StudentCoverService(StudentService studentService, AvatarRepository avatarRepository) {
+        this.studentService = studentService;
         this.avatarRepository = avatarRepository;
     }
 
-    public void uploadCover(Long facultyId, MultipartFile file) throws IOException {
-        Faculty faculty = facultyService.getFacultyById(facultyId);
+    public void uploadCover(Long studentId, MultipartFile file) throws IOException {
+        Student student = studentService.getStudentById(studentId);
 
-        Path filePath = Path.of(coversDir, facultyId + "." + file.getOriginalFilename());
+        Path filePath = Path.of(coversDir, studentId + "." + file.getOriginalFilename());
         Files.createDirectories(filePath.getParent());
         Files.deleteIfExists(filePath);
 
@@ -52,14 +54,14 @@ public class StudentCoverService {
             bis.transferTo(bos);
         }
 
-        Avatar facultyCover = findFacultyCover(facultyId);
-        facultyCover.setFaculty(faculty);
-        facultyCover.setFilePath(filePath.toString());
-        facultyCover.setFileSize(file.getSize());
-        facultyCover.setMediaType(file.getContentType());
-        facultyCover.setPreview(generateImagePreview(filePath));
+        Avatar studentCover = findStudentCover(studentId);
+        studentCover.setStudent(student);
+        studentCover.setFilePath(filePath.toString());
+        studentCover.setFileSize(file.getSize());
+        studentCover.setMediaType(file.getContentType());
+        studentCover.setPreview(generateImagePreview(filePath));
 
-        avatarRepository.save(facultyCover);
+        avatarRepository.save(studentCover);
     }
 
     private byte[] generateImagePreview(Path filePath) throws IOException {
@@ -84,15 +86,15 @@ public class StudentCoverService {
         return filename.substring(filename.lastIndexOf(".") + 1);
     }
 
-    public Avatar findFacultyCover(Long facultyId) {
-        if (avatarRepository.findByFacultyId(facultyId) != null) {
-            return avatarRepository.findByFacultyId(facultyId);
+    public Avatar findStudentCover(Long studentId) {
+        if (avatarRepository.findByStudentId(studentId) != null) {
+            return avatarRepository.findByStudentId(studentId);
         }
         return new Avatar();
     }
 
-//    public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize){
-//        PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize);
-//        return avatarRepository.findAll(pageRequest);
-//    }
+    public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize){
+        PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize);
+        return avatarRepository.findAll(pageRequest).getContent();
+    }
 }
