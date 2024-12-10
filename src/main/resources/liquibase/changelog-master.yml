@@ -5,4 +5,4 @@ databaseChangeLog:
       schemaName: public
       changes:
         - sqlFile:
-            path: liquibase/scripts/lesson-three.sql
+            path: liquibase/scripts/student.sql
