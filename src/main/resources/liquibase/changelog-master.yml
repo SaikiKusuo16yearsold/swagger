@@ -1,0 +1,10 @@
+databaseChangeLog:
+  - changeSet:
+      id: 1
+      author: user
+      schemaName: public
+      changes:
+        - sqlFile:
+            path: liquibase/scripts/lesson-three.sql
+
+
