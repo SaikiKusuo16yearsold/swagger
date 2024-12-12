@@ -51,7 +51,7 @@ class SchoolApplicationTests {
     @InjectMocks
     private FacultyController facultyController;
 
-//    @Test
+    @Test
     public void saveFacultyTest() throws Exception {
         List<Student> facultyList = new ArrayList<>();
 
