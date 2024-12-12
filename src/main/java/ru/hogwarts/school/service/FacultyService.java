@@ -1,6 +1,8 @@
 package ru.hogwarts.school.service;
 
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.stereotype.Service;
 import ru.hogwarts.school.model.Faculty;
@@ -20,6 +22,9 @@ public class FacultyService {
     private FacultyRepository facultyRepository;
 
 
+    Logger logger = LoggerFactory.getLogger(FacultyService.class);
+
+
     @Autowired
     private StudentRepository studentRepository;
 
@@ -34,10 +39,12 @@ public class FacultyService {
         faculty.setName(facultyDTO.getName());
         faculty.setColor(facultyDTO.getColor());
         faculty.setStudents(students);
+        logger.info("Was invoked method for add faculty");
         return facultyRepository.save(faculty);
     }
 
     public Faculty getFacultyById(Long id) {
+        logger.info("Was invoked method for get faculty by id");
         return facultyRepository.findById(id).get();
     }
 
@@ -45,18 +52,22 @@ public class FacultyService {
 //    @Transactional
     public void deleteFaculty(Long id) {
 //        avatarRepository.deleteByFacultyId(id);
+        logger.info("Was invoked method for delete faculty by id");
         facultyRepository.deleteById(id);
     }
 
     public List<Faculty> filterFacultyByColor(String color) {
+        logger.info("Was invoked method for filter faculty by id");
         return facultyRepository.findByColorLike(color);
     }
 
     public List<Faculty> findByColorOrName(String colorOrName, String nameOrColor) {
+        logger.info("Was invoked method for find faculty by color or name");
         return facultyRepository.findByColorIgnoreCaseOrNameIgnoreCase(colorOrName, nameOrColor);
     }
 
     public List<Student> findByName(Long id) {
+        logger.info("Was invoked method for find faculty by name");
         return facultyRepository.findById(id).get().getStudents();
     }
 }

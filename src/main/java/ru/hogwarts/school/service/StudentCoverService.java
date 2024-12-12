@@ -2,6 +2,8 @@ package ru.hogwarts.school.service;
 
 import jakarta.persistence.criteria.CriteriaBuilder;
 import jakarta.transaction.Transactional;
+import org.slf4j.Logger;
+import org.slf4j.LoggerFactory;
 import org.springframework.beans.factory.annotation.Autowired;
 import org.springframework.beans.factory.annotation.Value;
 import org.springframework.data.domain.PageRequest;
@@ -23,7 +25,6 @@ import java.util.List;
 import static java.nio.file.StandardOpenOption.CREATE_NEW;
 
 
-
 @Service
 @Transactional
 public class StudentCoverService {
@@ -33,6 +34,8 @@ public class StudentCoverService {
     private final StudentService studentService;
     private final AvatarRepository avatarRepository;
 
+    Logger logger = LoggerFactory.getLogger(StudentCoverService.class);
+
 
     public StudentCoverService(StudentService studentService, AvatarRepository avatarRepository) {
         this.studentService = studentService;
@@ -40,6 +43,7 @@ public class StudentCoverService {
     }
 
     public void uploadCover(Long studentId, MultipartFile file) throws IOException {
+        logger.info(" Was invoked method for uploading cover");
         Student student = studentService.getStudentById(studentId);
 
         Path filePath = Path.of(coversDir, studentId + "." + file.getOriginalFilename());
@@ -65,6 +69,7 @@ public class StudentCoverService {
     }
 
     private byte[] generateImagePreview(Path filePath) throws IOException {
+        logger.info(" Was invoked method for generate image preview");
         try (InputStream is = Files.newInputStream(filePath);
              BufferedInputStream bis = new BufferedInputStream(is, 1024);
              ByteArrayOutputStream baos = new ByteArrayOutputStream()) {
@@ -87,14 +92,16 @@ public class StudentCoverService {
     }
 
     public Avatar findStudentCover(Long studentId) {
+        logger.info("Was invoked method for find student cover");
         if (avatarRepository.findByStudentId(studentId) != null) {
             return avatarRepository.findByStudentId(studentId);
         }
         return new Avatar();
     }
 
-    public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize){
-        PageRequest pageRequest = PageRequest.of(pageNumber-1, pageSize);
+    public List<Avatar> getAllAvatars(Integer pageNumber, Integer pageSize) {
+        logger.info("Was invoked method for get all avatars");
+        PageRequest pageRequest = PageRequest.of(pageNumber - 1, pageSize);
         return avatarRepository.findAll(pageRequest).getContent();
     }
 }
