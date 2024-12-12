@@ -34,7 +34,7 @@ public class StudentCoverService {
     private final StudentService studentService;
     private final AvatarRepository avatarRepository;
 
-    Logger logger = LoggerFactory.getLogger(StudentCoverService.class);
+    private static final Logger logger = LoggerFactory.getLogger(StudentCoverService.class);
 
 
     public StudentCoverService(StudentService studentService, AvatarRepository avatarRepository) {

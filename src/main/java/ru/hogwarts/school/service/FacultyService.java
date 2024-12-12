@@ -22,7 +22,7 @@ public class FacultyService {
     private FacultyRepository facultyRepository;
 
 
-    Logger logger = LoggerFactory.getLogger(FacultyService.class);
+    private static final Logger logger = LoggerFactory.getLogger(FacultyService.class);
 
 
     @Autowired

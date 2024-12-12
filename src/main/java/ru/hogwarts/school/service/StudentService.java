@@ -26,7 +26,7 @@ public class StudentService {
     @Autowired
     private AvatarRepository avatarRepository;
 
-    Logger logger = LoggerFactory.getLogger(StudentService.class);
+    private static final Logger logger = LoggerFactory.getLogger(StudentService.class);
 
     public Student addStudent(StudentDTO studentDTO) {
         logger.info("Was invoked method for add student");
