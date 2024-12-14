@@ -13,6 +13,7 @@ import ru.hogwarts.school.repository.FacultyRepository;
 import ru.hogwarts.school.repository.StudentRepository;
 
 
+import java.util.Comparator;
 import java.util.List;
 
 
@@ -49,7 +50,7 @@ public class FacultyService {
     }
 
 
-//    @Transactional
+    //    @Transactional
     public void deleteFaculty(Long id) {
 //        avatarRepository.deleteByFacultyId(id);
         logger.info("Was invoked method for delete faculty by id");
@@ -69,5 +70,14 @@ public class FacultyService {
     public List<Student> findByName(Long id) {
         logger.info("Was invoked method for find faculty by name");
         return facultyRepository.findById(id).get().getStudents();
+    }
+
+
+    public String getLongestNaming() {
+        List<String> allFacultiesName = facultyRepository.findAllFacultyName();
+        String longestName = allFacultiesName.stream()
+                .max(Comparator.comparingInt(String::length))
+                .orElse("Нет слов в списке");
+        return longestName;
     }
 }

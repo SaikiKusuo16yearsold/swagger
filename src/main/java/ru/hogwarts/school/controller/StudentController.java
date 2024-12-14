@@ -154,4 +154,13 @@ public class StudentController {
         return ResponseEntity.ok(avatars);
     }
 
+    @GetMapping(path = "/middle-age")
+    public Long getMiddleAge() {
+        return studentService.getMiddleAge();
+    }
+
+    @GetMapping(path = "/by-alphabet")
+    public List<String> getStudentsByAlphabet(){
+        return studentService.getStudentsByAlphabet();
+    }
 }
