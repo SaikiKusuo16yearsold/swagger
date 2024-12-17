@@ -163,4 +163,14 @@ public class StudentController {
     public List<String> getStudentsByAlphabet(){
         return studentService.getStudentsByAlphabet();
     }
+
+    @GetMapping(path = "print-parallel")
+    public void printParallel(){
+         studentService.printParallel();
+    }
+
+    @GetMapping(path = "/print-synchronized")
+    public void printSynchronized(){
+        studentService.printSynchronized();
+    }
 }

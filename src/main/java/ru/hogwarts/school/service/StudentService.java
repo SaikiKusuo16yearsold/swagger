@@ -101,5 +101,46 @@ public class StudentService {
         return studentsName;
     }
 
+    public void printSynchronized() {
+        List<Student> students = studentRepository.findAll();
+        print(0);
+        print(1);
+
+        new Thread(() -> {
+            print(2);
+            print(3);
+        }).start();
+
+        new Thread(() -> {
+            print(4);
+            print(5);
+        }).start();
+    }
+
+    public Object flag = new Object();
+
+    public void printParallel() {
+        List<Student> students = studentRepository.findAll();
+        System.out.println(students.get(0));
+        System.out.println(students.get(1).toString());
+
+        new Thread(() -> {
+            System.out.println(students.get(2).toString());
+            System.out.println(students.get(3).toString());
+        }).start();
+
+        new Thread(() -> {
+            System.out.println(students.get(4).toString());
+            System.out.println(students.get(5).toString());
+        }).start();
+
+    }
+
+    private void print(int index) {
+        List<Student> students = studentRepository.findAll();
+        synchronized (flag) {
+            System.out.println(students.get(index).toString());
+        }
+    }
 
 }

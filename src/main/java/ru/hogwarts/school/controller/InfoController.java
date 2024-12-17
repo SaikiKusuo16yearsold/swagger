@@ -5,6 +5,7 @@ import org.springframework.web.bind.annotation.CrossOrigin;
 import org.springframework.web.bind.annotation.GetMapping;
 import org.springframework.web.bind.annotation.RestController;
 
+import java.util.stream.IntStream;
 import java.util.stream.LongStream;
 import java.util.stream.Stream;
 
@@ -20,8 +21,13 @@ public class InfoController {
 
     @GetMapping(path = "get-value")
     public long getValue() {
-        long parallelSum = LongStream.rangeClosed(1, 1_000_000)
+        long startTime = System.nanoTime();
+        int parallelSum = IntStream.rangeClosed(1, 1_000_000)
                 .sum();
+        long endTime = System.nanoTime(); // Конец измерения времени в наносекундах
+        long duration = endTime - startTime; // Разница во времени
+
+        System.out.println("Время выполнения: " + duration + " наносекунд");
         return parallelSum;
     }
 }
